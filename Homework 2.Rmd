@@ -1,0 +1,15 @@
+---
+title: "Homework 2"
+author: "David Istvan, Orlando Hariisson"
+date: "1 July 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+for(i in 1:100){
+  print(i)
+}
