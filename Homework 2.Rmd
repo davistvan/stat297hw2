@@ -18,7 +18,7 @@ library(plotly)
 
 ```{r}
 a = 0
-for (i in 1:100){
+for (i in 1:10000){
   a = a + 1
   if (a %% 3 == 0 && a %% 5 == 0) {
   print("Fizz Buzz")
@@ -45,10 +45,10 @@ Link not working
 set.seed(2000)
 
 # Number of steps
-B <- 10^2
+B <- 10^5
 
 # Direction probability (i.e. all direction are equally likely)
-probs <- c(0.1666667, 0.3333333, 0.5, 0.6666667, 0.8333333, 1)
+probs <- c(0.1666667, 0.3333333, 0.5, 0.6666667, 0.8333333)
 
 # Initial matrix
 step_direction <- matrix(data = 0, nrow = B+1, ncol = 3)
@@ -56,7 +56,7 @@ step_direction <- matrix(data = 0, nrow = B+1, ncol = 3)
 # Start random walk
 for (i in seq(2, B+1)){
   # Draw a random number from U(0,1)
-  rn = runif(B)
+  rn = runif(1)
 
   # Go right if rn \in [0,prob[1])
   if (rn < probs[1]) {step_direction[i,1] = 1}
@@ -67,13 +67,13 @@ for (i in seq(2, B+1)){
   # Go forward if rn \in [probs[2], probs[3])
   if (rn >= probs[2] && rn < probs[3]) {step_direction[i,2] = 1}
 
-  # Go backward if rn \in [probs[3],1]
+  # Go backward if rn \in [probs[3], probs[4]]
   if (rn >= probs[3] && rn < probs[4]) {step_direction[i,2] = -1}
   
-  # Go up if rn \in [probs[2], probs[3])
+  # Go up if rn \in [probs[4], probs[5])
   if (rn >= probs[4] && rn < probs[5]) {step_direction[i,3] = 1}
 
-  # Go down if rn \in [probs[3],1]
+  # Go down if rn \in [probs[5],1]
   if (rn > probs[5]) {step_direction[i,3] = -1}
 }
 
@@ -88,33 +88,34 @@ position = data.frame(x = cumsum(step_direction[, 1]),
                       y = cumsum(step_direction[, 2]),
                       z = cumsum(step_direction[, 3]))
 head(position)
+tail(position)
 ```
 
 
-## 3D random walk Plotly plot
-```{r random walk, message=FALSE, warning=FALSE}
-p <- plot_ly(position, x = ~x, y = ~y, z = ~z, type = 'scatter3d', mode = 'lines',
-        opacity = 1, line = list(width = 6, color = ~x, reverscale = FALSE))
-p <- add_trace(p, x = position[1,1], y = position[1,2], z = position[1,3],
-              mode = 'text', text = "Start!!!",
-              textfont = list(color = "blue"), showlegend = FALSE) 
-p <- add_trace(p, x = position[B,1], y = position[B,2], z = position[B,3],
-              mode = 'text', text = "End!!!",
-              textfont = list(color = "red"), showlegend = FALSE) 
-# plotly API
-Sys.setenv("plotly_username"="orlando1290")
-Sys.setenv("plotly_api_key"="Sjk6C7b9TSCbskcuDYJ7")
+<!-- ## 3D random walk Plotly plot -->
+<!-- ```{r random walk, message=FALSE, warning=FALSE} -->
+<!-- p <- plot_ly(position, x = ~x, y = ~y, z = ~z, type = 'scatter3d', mode = 'lines', -->
+<!--         opacity = 1, line = list(width = 6, color = ~x, reverscale = FALSE)) -->
+<!-- p <- add_trace(p, x = position[1,1], y = position[1,2], z = position[1,3], -->
+<!--               mode = 'text', text = "Start!!!", -->
+<!--               textfont = list(color = "blue"), showlegend = FALSE)  -->
+<!-- p <- add_trace(p, x = position[B,1], y = position[B,2], z = position[B,3], -->
+<!--               mode = 'text', text = "End!!!", -->
+<!--               textfont = list(color = "red"), showlegend = FALSE)  -->
+<!-- # plotly API -->
+<!-- Sys.setenv("plotly_username"="davistvan") -->
+<!-- Sys.setenv("plotly_api_key"="i00mBUwOUdfbYbSLTIiU") -->
 
-# Create a shareable link to your chart
-# Set up API credentials: https://plot.ly/r/getting-started
-chart_link = api_create(p, filename="line3d-basic")
-chart_link
-```
+<!-- # Create a shareable link to your chart -->
+<!-- # Set up API credentials: https://plot.ly/r/getting-started -->
+<!-- chart_link = api_create(p, filename="line3d-basic") -->
+<!-- chart_link -->
+<!-- ``` -->
 
-## image of 3D random walk plot
-```{r, out.width = "1200px"}
-knitr::include_graphics("C:\\Users\\Orlando Harrisson\\Documents\\Master Business Analytics\\4th Semester\\Summer School\\day_2\\stat297hw2\\line3d-basic.jpeg")
-```
+<!-- ## image of 3D random walk plot -->
+<!-- ```{r, out.width = "1200px"} -->
+<!-- knitr::include_graphics("C:\\Users\\blast\\Documents\\GitHub\\stat297hw2\\line3d-basic.jpeg") -->
+<!-- ``` -->
 
 # Problem 4
 ```{r}
