@@ -67,7 +67,7 @@ set.seed(2000)
 B <- 10^2
 
 # Direction probability (i.e. all direction are equally likely)
-probs <- c(0.25, 0.5, 0.75)
+probs <- c(0.1,0.2,0.3,0.4,0.5,0.6)
 
 # Initial matrix
 step_direction <- matrix(data = 0, nrow = B+1, ncol = 3)
@@ -87,7 +87,13 @@ for (i in seq(2, B+1)){
   if (rn >= probs[2] && rn < probs[3]) {step_direction[i,2] = 1}
 
   # Go backward if rn \in [probs[3],1]
-  if (rn >= probs[3]) {step_direction[i,2] = -1}
+  if (rn >= probs[3] && rn < probs[4]) {step_direction[i,2] = -1}
+  
+  # Go up if rn \in [probs[2], probs[3])
+  if (rn >= probs[4] && rn < probs[5]) {step_direction[i,3] = 1}
+
+  # Go down if rn \in [probs[3],1]
+  if (rn > probs[5]) {step_direction[i,3] = -1}
 }
 
 # Cumulative steps
@@ -95,6 +101,9 @@ position = data.frame(x = cumsum(step_direction[, 1]),
                       y = cumsum(step_direction[, 2]),
                       z = cumsum(step_direction[, 3]))
   
+
+```
+```{r}
 # Let's make a nice graph...
 # Graph parameters
 color = "blue4"
@@ -150,3 +159,4 @@ leg_pos = c(min(position[,1]), max(position[,2]))
 legend(leg_pos[1], leg_pos[2], c("Start","End"), 
       col = pt_col, pch = pt_pch, pt.cex = pt.cex, bty = "n")
 ```
+
