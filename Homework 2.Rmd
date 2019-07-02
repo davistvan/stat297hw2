@@ -93,10 +93,6 @@ head(position)
 
 ## 3D random walk Plotly plot
 ```{r random walk, message=FALSE, warning=FALSE}
-m <- position[1,]
-m # we annotate first row as start point
-
-
 p <- plot_ly(position, x = ~x, y = ~y, z = ~z, type = 'scatter3d', mode = 'lines',
         opacity = 1, line = list(width = 6, color = ~x, reverscale = FALSE))
 p <- add_trace(p, x = position[1,1], y = position[1,2], z = position[1,3],
