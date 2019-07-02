@@ -111,70 +111,31 @@ for (i in seq(2, B+1)){
 position = data.frame(x = cumsum(step_direction[, 1]), 
                       y = cumsum(step_direction[, 2]),
                       z = cumsum(step_direction[, 3]))
-position
+head(position)
 ```
 
 
-```{r}
-# Let's make a nice graph...
-# Graph parameters
-color = "blue4"
-xlab = "X-position"
-ylab = "Y-position"
-zlab = "Z-position"
-pt_pch = 16
-pt.cex = 2
-main = paste("Simulated 2D RW with", B, "steps", sep = " ")
-hues = seq(15, 375, length = 3)
-pt_col = hcl(h = hues, l = 65, c = 100)[1:2]
-par(mar = c(5.1, 5.1, 1, 2.1))
+## 3D random walk Plotly plot
+```{r echo=FALSE}
+m <- position[1,]
+m # we annotate first row as start point
 
-# Main plot
-plot(NA,  xlim = range(position[,1]), 
-          ylim = range(range(position[,2])), 
-          zlim = range(range(position[,3])),
-          xlab = xlab,
-     ylab = ylab,
-     zlab = zlab,
-     xaxt = 'n', 
-      yaxt = 'n',
-     zaxt = 'n',
-     bty = "n", ann = FALSE)
-win_dim = par("usr")
 
-par(new = TRUE)
-plot(NA, xlim = range(position[,1]), ylim = c(win_dim[3], win_dim[4] + 0.09*(win_dim[4] - win_dim[3])),
-       xlab = xlab, ylab = ylab, xaxt = 'n', yaxt = 'n', bty = "n")
-  win_dim = par("usr")
+p <- plot_ly(position, x = ~x, y = ~y, z = ~z, type = 'scatter3d', mode = 'lines',
+        opacity = 1, line = list(width = 6, color = ~x, reverscale = FALSE))
+p <- add_trace(p, x = position[1,1], y = position[1,2], z = position[1,3],
+              mode = 'text', text = "Start!!!",
+              textfont = list(color = "blue"), showlegend = FALSE) 
+p <- add_trace(p, x = position[B,1], y = position[B,2], z = position[B,3],
+              mode = 'text', text = "End!!!",
+              textfont = list(color = "red"), showlegend = FALSE) 
+# plotly API
+Sys.setenv("plotly_username"="orlando1290")
+Sys.setenv("plotly_api_key"="Sjk6C7b9TSCbskcuDYJ7")
 
-# Add grid
-grid(NULL, NULL, lty = 1, col = "grey95")
-
-# Add title
-x_vec = c(win_dim[1], win_dim[2], win_dim[2], win_dim[1])
-y_vec = c(win_dim[4], win_dim[4],
-            win_dim[4] - 0.09*(win_dim[4] - win_dim[3]),
-            win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))
-polygon(x_vec, y_vec, col = "grey95", border = NA)
-text(x = mean(c(win_dim[1], win_dim[2])), y = (win_dim[4] - 0.09/2*(win_dim[4] - win_dim[3])), main)
-
-# Add axes and box
-lines(x_vec[1:2], rep((win_dim[4] - 0.09*(win_dim[4] - win_dim[3])),2), col = 1)
-box()
-axis(1, padj = 0.3)
-y_axis = axis(2, labels = FALSE, tick = FALSE)
-y_axis = y_axis[y_axis < (win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
-axis(2, padj = -0.2, at = y_axis)
-
-# Add trajectory
-lines(position, type = "l", col = color, pch = 16)
-  
-# Start and end points
-points(c(0,position[B+1,1]), c(0,position[B+1,2]), cex = pt.cex, col = pt_col, pch = pt_pch)
-  
-# Legend
-leg_pos = c(min(position[,1]), max(position[,2]))
-legend(leg_pos[1], leg_pos[2], c("Start","End"), 
-      col = pt_col, pch = pt_pch, pt.cex = pt.cex, bty = "n")
+# Create a shareable link to your chart
+# Set up API credentials: https://plot.ly/r/getting-started
+chart_link = api_create(p, filename="line3d-basic")
+chart_link
 ```
 
