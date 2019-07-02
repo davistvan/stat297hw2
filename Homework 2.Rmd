@@ -9,6 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# libraries
+```{r}
+library(plotly)
+```
+
 ## Problem 1
 
 ```{r}
@@ -67,7 +72,7 @@ set.seed(2000)
 B <- 10^2
 
 # Direction probability (i.e. all direction are equally likely)
-probs <- c(0.1,0.2,0.3,0.4,0.5,0.6)
+probs <- c(0.1,0.2,0.3,0.4,0.5)
 
 # Initial matrix
 step_direction <- matrix(data = 0, nrow = B+1, ncol = 3)
@@ -96,13 +101,21 @@ for (i in seq(2, B+1)){
   if (rn > probs[5]) {step_direction[i,3] = -1}
 }
 
+
+  
+
+```
+
+```{r cumulative steps}
 # Cumulative steps
 position = data.frame(x = cumsum(step_direction[, 1]), 
                       y = cumsum(step_direction[, 2]),
                       z = cumsum(step_direction[, 3]))
-  
 
+position
 ```
+
+
 ```{r}
 # Let's make a nice graph...
 # Graph parameters
@@ -120,8 +133,14 @@ par(mar = c(5.1, 5.1, 1, 2.1))
 # Main plot
 plot(NA,  xlim = range(position[,1]), 
           ylim = range(range(position[,2])), 
-          xlab = xlab, ylab = ylab, xaxt = 'n', 
-          yaxt = 'n', bty = "n", ann = FALSE)
+          zlim = range(range(position[,3])),
+          xlab = xlab,
+     ylab = ylab,
+     zlab = zlab,
+     xaxt = 'n', 
+      yaxt = 'n',
+     zaxt = 'n',
+     bty = "n", ann = FALSE)
 win_dim = par("usr")
 
 par(new = TRUE)
