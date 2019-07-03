@@ -39,16 +39,21 @@ Link not working
 
 
 # Problem 3
+## probablities computation
 
+
+## 3D axis probabilities
 ```{r 3D axis probs, message=FALSE, warning=FALSE}
 # Control seed
-set.seed(2000)
+set.seed(1982)
 
 # Number of steps
-B <- 10^2
+B <- 10^4
 
 # Direction probability (i.e. all direction are equally likely)
 probs <- c(0.1666667, 0.3333333, 0.5, 0.6666667, 0.8333333, 1)
+
+
 
 # Initial matrix
 step_direction <- matrix(data = 0, nrow = B+1, ncol = 3)
@@ -88,6 +93,7 @@ position = data.frame(x = cumsum(step_direction[, 1]),
                       y = cumsum(step_direction[, 2]),
                       z = cumsum(step_direction[, 3]))
 head(position)
+tail(position)
 ```
 
 
@@ -100,7 +106,10 @@ p <- add_trace(p, x = position[1,1], y = position[1,2], z = position[1,3],
               textfont = list(color = "blue"), showlegend = FALSE) 
 p <- add_trace(p, x = position[B,1], y = position[B,2], z = position[B,3],
               mode = 'text', text = "End!!!",
-              textfont = list(color = "red"), showlegend = FALSE) 
+              textfont = list(color = "red"), showlegend = FALSE)
+p <- add_trace(p, x = position[B,1], y = position[B,2], z = position[B,3],
+              mode = 'text', text = c(position$x[B], position$y[B], position$z[B]),
+              textfont = list(color = "darkgray"), showlegend = FALSE) 
 # plotly API
 Sys.setenv("plotly_username"="orlando1290")
 Sys.setenv("plotly_api_key"="Sjk6C7b9TSCbskcuDYJ7")
@@ -115,6 +124,10 @@ chart_link
 ```{r, out.width = "1200px"}
 knitr::include_graphics("C:\\Users\\Orlando Harrisson\\Documents\\Master Business Analytics\\4th Semester\\Summer School\\day_2\\stat297hw2\\line3d-basic.jpeg")
 ```
+
+
+## Bonus c
+See that exectation $E[X_B]=\left[\begin{array}{rrr}0\\0\\-0.01B\end{array}\right]$ 
 
 # Problem 4
 ```{r}
