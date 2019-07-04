@@ -35,7 +35,7 @@ for (i in 1:100){
 # Problem 2
 Here we will be using ggmap
 ```{r ggmap with football teams}
-teams <- read.csv()
+teams <- read.csv("football_teams.csv", header = TRUE, sep = ",")
 ```
 
 
