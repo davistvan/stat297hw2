@@ -33,8 +33,10 @@ for (i in 1:100){
 ```
 
 # Problem 2
-Link not working
-
+Here we will be using ggmap
+```{r ggmap with football teams}
+teams <- read.csv()
+```
 
 
 
