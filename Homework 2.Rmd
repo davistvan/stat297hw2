@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # libraries
 ```{r libraries, message=FALSE, warning=FALSE}
 library(plotly)
+library(ggmap)
+library(tmaptools)
 ```
 
 # Problem 1
@@ -36,6 +38,8 @@ for (i in 1:10000){
 Here we will be using ggmap
 ```{r ggmap with football teams}
 teams <- read.csv("football_teams.csv", header = TRUE, sep = ",")
+
+ggmap(get_stamenmap(rbind(as.numeric(paste(geocode_OSM("vienna")))), zoom=9))
 
 ```
 
